@@ -115,7 +115,10 @@ def main():
     # Connect to our PostgreSQL database
     conn = psycopg2.connect(host=db_host, database=db_name, user=db_user, password=db_password)
     
-    symbols = parse_wiki_forex()
+    #symbols = parse_wiki_forex()
+    now = datetime.datetime.utcnow()
+    symbols = [('USD_BRL','Forex', 'USD/BRL', 'Forex', 'USD', now, now),
+               ('EUR_USD','Forex', 'EUR/USD', 'Forex', 'USD', now, now)]
     insert_forex_symbols_postgres(symbols, conn)
     print("%s symbols were successfully added." % len(symbols))  
     
