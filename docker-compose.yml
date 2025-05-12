@@ -10,10 +10,11 @@ services:
             - ${WD}/minio/storage:/minio-image/storage
         ports:
             - "9000:9000"
+            - "9001:9001"
         environment:
-            MINIO_ACCESS_KEY: minio-image
-            MINIO_SECRET_KEY: minio-image-pass
-        command: server /minio-image/storage
+            MINIO_ROOT_USER: minio-image
+            MINIO_ROOT_PASSWORD: minio-image-pass
+        command: server /minio-image/storage  --console-address :9001
 
     mlflow-image:
         container_name: "mlflow-image"
@@ -87,12 +88,12 @@ services:
         image: dpage/pgadmin4
         container_name: "pgadmin"
         environment:
-            PGADMIN_DEFAULT_EMAIL: "guest"
-            PGADMIN_DEFAULT_PASSWORD: "guest"
+            PGADMIN_SETUP_EMAIL: "koe@admin.org"
+            PGADMIN_SETUP_PASSWORD: "admin_koe"
         volumes:
-            - ${WD}/pgadmin/:/var/lib/pgadmin 
+            - ${WD}/pgadmin/:/var/lib/pgadmin
         ports:
-            - 1234:80
+            - 5050:80
         depends_on:
             - postgres_secmaster
     
